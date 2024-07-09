@@ -11,7 +11,7 @@ namespace DeSteam
             [Option('v', "verbose", Default = false, HelpText = "Shows additional info when executing.")]
             public bool verbose { get; set; }
 
-            [Option('o', "output", Required = false, HelpText = "Unpacked file name.")]
+            [Option('o', "output", Required = false, HelpText = "Specify unpacked file name.")]
             public string? outputFileName { get; set; }
 
             [Value(0, Required = true, HelpText = "Path to the file to unpack", MetaName = "Path to file")]
@@ -23,13 +23,14 @@ namespace DeSteam
             var parser = new Parser(x => {
                 x.HelpWriter = null;
             });
-            var parserResult = parser.ParseArguments<Options>(args);         
-            var helpText = HelpText.AutoBuild(parserResult, h =>
-            {
-                h.MaximumDisplayWidth = 500;
-                h.Copyright = ""; 
-                return h;
-            }, e => e);
+            var parserResult = parser.ParseArguments<Options>(args);
+            string helpText =
+@"DeSteam version 1.0.0"+ "\n"+ @"
+Usage: ./DeSteam.exe [path_to_file_to_unpack]"+ "\n"+@"
+Optional arguments:
+-o, --output:           Specify unpacked file name. (Default: [original_name].unpacked.exe)
+-v, --verbose:          Shows additional info when executing. (Default: false)
+";
             parserResult.WithNotParsed(errs => {
                 Console.WriteLine(helpText);
                 Logger.Error("Missing required file path!");
