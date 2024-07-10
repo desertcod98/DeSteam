@@ -1,5 +1,5 @@
 # DeSteam
-DeSteam purpose is to unpack files packed with SteamDrm. It currently works on only one of the SteamDrm versions, tested only on two games as of now. I created this project for the sole purpose of learning about DRMs and getting better at reverse engineering.
+DeSteam purpose is to unpack files packed with SteamDrm. It currently works on only one of the SteamDrm versions, tested only on three games as of now. I created this project for the sole purpose of learning about DRMs and getting better at reverse engineering.
 
 **I do not take responsibility for the improper use of the software, you should only use this on games/applications that you legally own and you should not distribute unpacked files. This software was made for educational purposes ONLY.**
 
