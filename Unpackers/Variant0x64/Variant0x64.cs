@@ -120,9 +120,11 @@ namespace DeSteam.Unpackers.Variant0x64
                 Array.Copy(textSectionData, 0, completeTextData, dataOnTopOfText.Length, textSectionData.Length);
 
                 ulong rcxAreaBase = 0x000002BDE8F10000;
-                int rcxAreaSize = 0x570000;
-                emulator.Memory.Map(rcxAreaBase, rcxAreaSize, MemoryPermissions.All);
+
                 ulong rcxValue = 0x000002BDE8F42FD0;
+                emulator.Memory.Map(rcxAreaBase, 
+                    (int)FileHelper.AlignTo(textSizeAligned + rcxValue-rcxAreaBase, (ulong)emulator.Memory.PageSize*2), //idk why it works if align to pagesize * 2
+                    MemoryPermissions.All);
                 emulator.Registers.RCX = (long)rcxValue;
                 emulator.Memory.Write(rcxValue, completeTextData, completeTextData.Length);
 
@@ -164,7 +166,7 @@ namespace DeSteam.Unpackers.Variant0x64
 
                 emulator.Hooks.Code.Add(SkipAllocaProbeHook, null);
 
-                Logger.Verbose("Starting emulation...");
+                Logger.Info("Starting emulation (this takes a while, do not panic)...");
                 try {
                     emulator.Start(0x0000000180001040, 0x00000001800040DB);
                 }

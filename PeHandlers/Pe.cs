@@ -45,16 +45,6 @@ namespace DeSteam.PeHandlers {
                 sections[i] = section;
             }
         }
-        //rounds to the next biggest multiple of 'align'
-        protected ulong AlignTo(ulong toAlign, ulong align) {
-            ulong reminder = toAlign % align;
-            if (reminder == 0) {
-                return toAlign;
-            }
-            else {
-                return toAlign + (align - reminder);
-            }
-        }
 
         public ulong GetFileOffsetFromRva(ulong rva) {
             Section? s = GetOwnerSection(rva);

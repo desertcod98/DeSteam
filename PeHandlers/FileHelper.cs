@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace DeSteam.PeHandlers {
     internal class FileHelper {
+        //rounds to the next biggest multiple of 'align'
+        public static ulong AlignTo(ulong toAlign, ulong align) {
+            ulong reminder = toAlign % align;
+            if (reminder == 0) {
+                return toAlign;
+            }
+            else {
+                return toAlign + (align - reminder);
+            }
+        }
+
         public static byte[] ReadAllBytesFileInCWD(string filename) {
             string folder = Environment.CurrentDirectory;
             return File.ReadAllBytes(folder+ "\\"+filename);

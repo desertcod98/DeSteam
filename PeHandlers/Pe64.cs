@@ -15,7 +15,7 @@ namespace DeSteam.PeHandlers
             optionalHeader = FileHelper.GetStructure<Pe64Headers.OPTIONAL_HEADER64>(optionalData);
 
             foreach (var s in sections) {
-                ulong sectionSize = AlignTo(s.header.sizeOfRawData, optionalHeader.fileAlignment);
+                ulong sectionSize = FileHelper.AlignTo(s.header.sizeOfRawData, optionalHeader.fileAlignment);
                 s.sizeAligned = sectionSize;
                 byte[] data = new byte[s.header.sizeOfRawData];
                 stream.Seek(s.header.ptrToRawData, SeekOrigin.Begin);
