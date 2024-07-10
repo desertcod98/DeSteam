@@ -96,13 +96,13 @@ namespace DeSteam.Unpackers.Variant0x64
                 byte[] steamDllData = FileHelper.ReadAllBytesFileInCWD("Variant0x64DecryptionCode.bin");
                 ulong baseAddr = 0x0000000180000000;
                 int size = 0x300000;
-                emulator.Memory.Map(baseAddr, size, MemoryPermissions.All);
+                emulator.Memory.Map(baseAddr, FileHelper.AlignTo(size,emulator.Memory.PageSize*2), MemoryPermissions.All);
                 emulator.Memory.Write(baseAddr, steamDllData, steamDllData.Length);
 
                 Logger.Verbose("Preparing stack and writing memory needed for the function...");
                 ulong stackBaseAddr = 0x0000007EB7EF6000;
                 int stackSize = 0xA000;
-                emulator.Memory.Map(stackBaseAddr, stackSize, MemoryPermissions.All);
+                emulator.Memory.Map(stackBaseAddr, FileHelper.AlignTo(stackSize, emulator.Memory.PageSize * 2), MemoryPermissions.All);
                 emulator.Registers.RSP = 0x0000007EB7EFDBB8;
                 emulator.Registers.RBP = 0x0000007EB7EFDCC0;
                 //TODO!!!  without stack dump, it throws an exception but the result is the same!
@@ -123,7 +123,7 @@ namespace DeSteam.Unpackers.Variant0x64
 
                 ulong rcxValue = 0x000002BDE8F42FD0;
                 emulator.Memory.Map(rcxAreaBase, 
-                    (int)FileHelper.AlignTo(textSizeAligned + rcxValue-rcxAreaBase, (ulong)emulator.Memory.PageSize*2), //idk why it works if align to pagesize * 2
+                    FileHelper.AlignTo((int)(textSizeAligned + rcxValue-rcxAreaBase), emulator.Memory.PageSize*2), //idk why it works if align to pagesize * 2
                     MemoryPermissions.All);
                 emulator.Registers.RCX = (long)rcxValue;
                 emulator.Memory.Write(rcxValue, completeTextData, completeTextData.Length);
@@ -145,7 +145,7 @@ namespace DeSteam.Unpackers.Variant0x64
 
                 //this is where .text gets decrypted
                 ulong textSectionBase = 0x00007FF74BBE0000;
-                emulator.Memory.Map(textSectionBase, (int)textSizeAligned, MemoryPermissions.All);
+                emulator.Memory.Map(textSectionBase, (int)FileHelper.AlignTo(textRawSize, (ulong)emulator.Memory.PageSize *2), MemoryPermissions.All);
                 
                 emulator.Memory.Write(textSectionBase, textSectionData, textSectionData.Length);
 
@@ -160,7 +160,7 @@ namespace DeSteam.Unpackers.Variant0x64
                 //RDI (header)
                 ulong rdiAreaBase = 0x0010007EB7EF6000;
                 int rdiAreaSize = 0xA000;
-                emulator.Memory.Map(rdiAreaBase, rdiAreaSize, MemoryPermissions.All);
+                emulator.Memory.Map(rdiAreaBase, (int)FileHelper.AlignTo((ulong)rdiAreaSize, (ulong)emulator.Memory.PageSize*2), MemoryPermissions.All);
                 emulator.Registers.RDI = 0x0010007EB7EFFA50;
                 emulator.Memory.Write((ulong)emulator.Registers.RDI, stubHeaderData, stubHeaderData.Length);
 

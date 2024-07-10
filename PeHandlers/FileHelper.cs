@@ -17,6 +17,12 @@ namespace DeSteam.PeHandlers {
                 return toAlign + (align - reminder);
             }
         }
+        public static int AlignTo(int toAlign, int align) {
+            ulong ulongToAlign = (ulong)toAlign;
+            ulong ulongAlign = (ulong)align;
+            ulong result = AlignTo(ulongToAlign, ulongAlign);
+            return (int)result;
+        }
 
         public static byte[] ReadAllBytesFileInCWD(string filename) {
             string folder = Environment.CurrentDirectory;
