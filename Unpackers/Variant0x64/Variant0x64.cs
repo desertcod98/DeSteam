@@ -145,7 +145,7 @@ namespace DeSteam.Unpackers.Variant0x64
 
                 //this is where .text gets decrypted
                 ulong textSectionBase = 0x00007FF74BBE0000;
-                emulator.Memory.Map(textSectionBase, (int)FileHelper.AlignTo(textRawSize, (ulong)emulator.Memory.PageSize *2), MemoryPermissions.All);
+                emulator.Memory.Map(textSectionBase, FileHelper.AlignTo((int)textRawSize, emulator.Memory.PageSize *2), MemoryPermissions.All);
                 
                 emulator.Memory.Write(textSectionBase, textSectionData, textSectionData.Length);
 
@@ -160,7 +160,7 @@ namespace DeSteam.Unpackers.Variant0x64
                 //RDI (header)
                 ulong rdiAreaBase = 0x0010007EB7EF6000;
                 int rdiAreaSize = 0xA000;
-                emulator.Memory.Map(rdiAreaBase, (int)FileHelper.AlignTo((ulong)rdiAreaSize, (ulong)emulator.Memory.PageSize*2), MemoryPermissions.All);
+                emulator.Memory.Map(rdiAreaBase, FileHelper.AlignTo(rdiAreaSize, emulator.Memory.PageSize*2), MemoryPermissions.All);
                 emulator.Registers.RDI = 0x0010007EB7EFFA50;
                 emulator.Memory.Write((ulong)emulator.Registers.RDI, stubHeaderData, stubHeaderData.Length);
 
