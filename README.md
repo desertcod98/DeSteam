@@ -1,4 +1,9 @@
 # DeSteam
+<div align="center">
+    <img width="200" src="https://github.com/desertcod98/DeSteam/blob/main/assets/DeSteamLogo.png" alt="DeSteamLogo">
+    </br>
+</div>
+
 
 DeSteam purpose is to unpack files packed with SteamDrm. It currently works on only one of the SteamDrm versions, tested only on three games as of now. I created this project for the sole purpose of learning about DRMs and getting better at reverse engineering.
 
